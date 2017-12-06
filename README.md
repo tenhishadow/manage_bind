@@ -36,8 +36,9 @@ Example Playbook
   vars:
     - configs: /root/bind_configs
   vars_files:
-    - {{ configs }}/ansible_vars.yml
-  roles: tenhishadow.manage_bind
+    - /root/bind_configs/ansible_vars.yml
+  roles:
+  - tenhishadow.manage_bind
 ...
 ```
 
