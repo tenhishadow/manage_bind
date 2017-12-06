@@ -1,0 +1,9 @@
+---
+
+- name: restart firewalld
+  service: name=firewalld state=restarted
+
+- name: restart bind
+  service: name=named-chroot state=restarted enabled=yes
+
+...

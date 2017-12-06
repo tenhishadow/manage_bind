@@ -1,0 +1,44 @@
+---
+
+- name: install firewalld
+  yum: name=firewalld state=present
+  notify:
+    - restart firewalld
+
+- name: install bind-chroot
+  yum: name=bind-chroot state=present
+  notify:
+    - restart bind
+
+- name: start and enable firewalld
+  service: name=firewalld state=started enabled=yes
+
+- name: manage firewall
+  firewalld: service=dns state=enabled permanent=yes immediate=yes
+
+- name: manage zones
+  template:
+    src: "configs/{{ item.value.file }}"
+    dest: "/var/named/data/{{ item.value.file }}"
+    backup: no
+    mode: "u=rw,g=r,o=-"
+    owner: "root"
+    group: "named"
+    validate: "/usr/sbin/named-checkzone -q -i full {{ item.key }} %s"
+  with_dict: "{{ zones }}"
+  notify:
+    - restart bind
+
+- name: manage main config
+  template:
+    src: "configs/named.j2"
+    dest: "/etc/named.conf"
+    backup: no
+    mode: "u=rw,g=r,o=-"
+    owner: "root"
+    group: "named"
+    validate: '/usr/sbin/named-checkconf -z -j %s'
+  notify:
+    - restart bind
+
+...
