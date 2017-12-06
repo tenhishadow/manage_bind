@@ -18,7 +18,7 @@
 
 - name: manage zones
   template:
-    src: "configs/{{ item.value.file }}"
+    src: "{{ configs }}/{{ item.value.file }}"
     dest: "/var/named/data/{{ item.value.file }}"
     backup: no
     mode: "u=rw,g=r,o=-"
@@ -31,7 +31,7 @@
 
 - name: manage main config
   template:
-    src: "configs/named.j2"
+    src: "{{ configs }}/named.j2"
     dest: "/etc/named.conf"
     backup: no
     mode: "u=rw,g=r,o=-"
