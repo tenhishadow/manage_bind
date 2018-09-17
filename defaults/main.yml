@@ -1,2 +1,5 @@
 ---
-# defaults file for manage_named
+
+firewalld: 'yes' # Install and configure firewalld by default
+
+...

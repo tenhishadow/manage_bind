@@ -1,26 +1,21 @@
 ---
 
-- name: install firewalld
-  yum: name=firewalld state=present
-  notify:
-    - restart firewalld
+
+- name: install and cofigure firewalld for DNS service
+  import_tasks: "firewalld.yml"
+  when:
+    - firewalld
 
 - name: install bind-chroot
   yum: name=bind-chroot state=present
   notify:
     - restart bind
 
-- name: start and enable firewalld
-  service: name=firewalld state=started enabled=yes
-
-- name: manage firewall
-  firewalld: service=dns state=enabled permanent=yes immediate=yes
-
 - name: manage zones
   template:
     src: "{{ configs }}/{{ item.value.file }}"
     dest: "/var/named/data/{{ item.value.file }}"
-    backup: no
+    backup: 'no'
     mode: "u=rw,g=r,o=-"
     owner: "root"
     group: "named"
@@ -33,7 +28,7 @@
   template:
     src: "{{ configs }}/named.j2"
     dest: "/etc/named.conf"
-    backup: no
+    backup: 'no'
     mode: "u=rw,g=r,o=-"
     owner: "root"
     group: "named"
