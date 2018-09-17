@@ -1,10 +1,14 @@
-Role Name
+tenhishadow.manage_bind
 =========
-This role can manage bind9 servers on Centos7. It is automation for configuring BIND on managed servers.
-"named-chroot" package used instead of just named due to more secure approach.
+It is an automation for configuring BIND on managed servers.
 
-I have designed this role to configure external bind9 servers to be masters.
 Bind will check config and zones befor restart.
+
+During the execution ansible will:
+  - install and configure firewalld ( if default var "firewalld" is not overrided )
+  - install bind in chroot
+  - configure named and zones with checking syntax with named-checkconf and named-checkzone
+  - restart bind daemon in case of success
 
 Requirements
 ------------
