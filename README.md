@@ -1,33 +1,18 @@
 Role Name
 =========
-This role can manage bind9 server on Centos7.
-I uses package named-chroot instead of just named.
-I have designed it to configure 2 external bind9 servers to be masters.
-I don't care any dontime and don't use 'rndc reload zone' (maybe it's temporary, maybe not)
+This role can manage bind9 servers on Centos7. It is automation for configuring BIND on managed servers.
+"named-chroot" package used instead of just named due to more secure approach.
+
+I have designed this role to configure external bind9 servers to be masters.
+Bind will check config and zones befor restart.
 
 Requirements
 ------------
-1-2 Centos7 Servers
-
-Role Variables
---------------
-File ansible_vars.yml:
-```yaml
----
-zones:
-  somedomain.org:
-    file: "somedomain.org.zone"
-...
-```
-
-Dependencies
-------------
--
+- Centos 7 or RHEL7
+- bind-chroot
 
 Example Playbook
 ----------------
-
-
 ```yaml
 ---
 
@@ -36,7 +21,7 @@ Example Playbook
   become_user: "root"
   gather_facts: "true"
   any_errors_fatal: "true"
-  serial: "1" # do it one by one to prevent fail on all BIND-servers
+  serial: "1" 			# do it one by one to prevent fail on all BIND-servers
   vars:
     - configs: configs
   vars_files:
@@ -45,7 +30,6 @@ Example Playbook
   - tenhishadow.manage_bind
 
 ...
-
 ```
 
 Example files for playbook
@@ -55,9 +39,10 @@ Example files for playbook
 ├── configs
 │   ├── ansible_vars.yml	# variables for playbook incude zones and params
 │   ├── example.com.zone	# zone file with the records
+│   ├── example1.com.zone	# zone file with the records
 │   ├── named.j2		# central config which will be /etc/named.conf 
 └── playbook.yml
-
+```
 
 Example content for ansible_vars.yml:
 ----------------
@@ -160,11 +145,11 @@ www                     IN      CNAME           another.domain.com.
 ;### END mail
 ```
 
-
 License
 -------
 GPL v 3.0
 
 Author Information
 ------------------
+Stanislav Cherkasov
 Tenhi adm@tenhi.ru
