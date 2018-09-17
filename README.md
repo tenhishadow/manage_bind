@@ -27,44 +27,69 @@ Dependencies
 Example Playbook
 ----------------
 
+
 ```yaml
 ---
+
 - hosts: external_dns
+  become: "yes"
+  become_user: "root"
   gather_facts: "true"
   any_errors_fatal: "true"
-  serial: "1"
+  serial: "1" # do it one by one to prevent fail on all BIND-servers
   vars:
-    - configs: /root/bind_configs
+    - configs: configs
   vars_files:
-    - /root/bind_configs/ansible_vars.yml
+    - configs/ansible_vars.yml
   roles:
   - tenhishadow.manage_bind
+
 ...
+
 ```
 
-So, as you can see role requere configuration files to manage BIND.
-e.g. you need to need to have files in /root/bind_configs:
+Example files for playbook
+----------------
 ```bash
-ansible_vars.yml	# dict of zone with name of zone and zonefile
-named.j2		# central config which will be /etc/named.conf
-somedomain.org.zone	# file of zone mentioned also in ansible_vars.yml
-```
-Examples:
+.
+├── configs
+│   ├── ansible_vars.yml	# variables for playbook incude zones and params
+│   ├── example.com.zone	# zone file with the records
+│   ├── named.j2		# central config which will be /etc/named.conf 
+└── playbook.yml
 
-File ansible_vars.yml:
+
+Example content for ansible_vars.yml:
+----------------
 ```yaml
 ---
+
 zones:
-  somedomain.org:
-    file: "somedomain.org.zone"
+  example.com:
+    file: "example.com.zone"
+    zone_serial: '2018052901'
+    zone_refresh: '3600'
+    zone_retry: '7200'
+    zone_expire: '3600000'
+    zone_minimum: '3600'
+  example1.com:
+    file: "example1.com.zone"
+    zone_serial: '2018081301'
+    zone_refresh: '3600'
+    zone_retry: '7200'
+    zone_expire: '3600000'
+    zone_minimum: '3600'
+
 ...
 ```
-File named.j2
-```yaml
+
+Example content for named.j2
+----------------
+```shell
 # {{ ansible_managed }}
 options {
- listen-on port 53              { {{ ansible_default_ipv4.address }}; };
- listen-on-v6 port 53           { {{ ansible_default_ipv6.address|default('none') }}; };
+ listen-on port 53              { any; };
+ listen-on-v6 port 53           { any; };
  directory                      "/var/named";
  dump-file                      "/var/named/data/cache_dump.db";
  statistics-file                "/var/named/data/named_stats.txt";
@@ -73,7 +98,7 @@ options {
  session-keyfile                "/run/named/session.key";
  allow-query                    { any; };
  recursion                      no;
- version                        "AIX 5.2";
+ version                        "AIX 5.1.0";
  auth-nxdomain                  no;
  dnssec-enable                  yes;
  dnssec-validation              auto;
@@ -97,9 +122,44 @@ zone "{{ key }}" {
  allow-transfer { none; };
 };
 {% endfor %}
-# END ZONES
-
+# END OF ZONES
 ```
+Example content for configs/example.com.zone
+----------------
+```shell
+; {{ ansible_managed }}
+$TTL 3600
+@                       IN      SOA     ns1.example.com. postmaster.example.com. (
+        {{ item.value.zone_serial }}    ; serial YYYYMMDDnn
+        {{ item.value.zone_refresh }}   ; refresh
+        {{ item.value.zone_retry }}     ; retry
+        {{ item.value.zone_expire }}    ; expire
+        {{ item.value.zone_minimum }}   ; minimum ttl for zone
+)
+;### INT ns
+                        IN      NS              ns1.example.com.
+                        IN      NS              ns2.example.com.
+                        IN      NS              ns3.example.com.
+ns1                     IN      A               127.0.0.1			; srv1
+ns2                     IN      A               127.0.0.1			; srv2
+ns2                     IN      AAAA            12:3456:789a			; srv2
+ns3                     IN      A               127.0.0.1			; srv3
+;### END ns
+
+
+;### INT site
+@                       IN      TXT     "google-site-verification=TEST"
+@                       IN      A               127.0.0.1
+www                     IN      CNAME           another.domain.com.
+;### END site
+
+
+;### INT mail
+@                       IN      MX      0       mx.another.domain.com.
+@                       IN      MX      10      mx.another.domain.com.
+;### END mail
+```
+
 
 License
 -------
