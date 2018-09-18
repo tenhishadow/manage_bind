@@ -1,5 +1,5 @@
 ---
 
-firewalld: 'yes' # Install and configure firewalld by default
+firewalld: "true" # Install and configure firewalld by default
 
 ...
