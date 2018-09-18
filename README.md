@@ -1,6 +1,7 @@
 tenhishadow.manage_bind
 =========
 [![Build Status](https://travis-ci.com/tenhishadow/manage_bind.svg?branch=master)](https://travis-ci.com/tenhishadow/manage_bind)
+
 It is an automation for configuring BIND on managed servers.
 
 Bind will check config and zones befor restart.
@@ -121,4 +122,5 @@ GPL v 3.0
 Author Information
 ------------------
 Stanislav Cherkasov
+
 Tenhi adm@tenhi.ru
