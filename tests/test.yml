@@ -1,5 +1,13 @@
 ---
-- hosts: localhost
-  remote_user: root
+
+- hosts: all
+  gather_facts: "true"
+  any_errors_fatal: "true"
+  vars:
+    - configs: "tests/configs"
+  vars_files:
+    - tests/configs/ansible_vars.yml
   roles:
-    - manage_named
+  - manage_bind
+
+...
