@@ -1,5 +1,6 @@
 tenhishadow.manage_bind
 =========
+[![Build Status](https://travis-ci.com/tenhishadow/manage_bind.svg?branch=master)](https://travis-ci.com/tenhishadow/manage_bind)
 It is an automation for configuring BIND on managed servers.
 
 Bind will check config and zones befor restart.
@@ -113,42 +114,6 @@ zone "{{ key }}" {
 {% endfor %}
 # END OF ZONES
 ```
-Example content for configs/example.com.zone
-----------------
-```shell
-; {{ ansible_managed }}
-$TTL 3600
-@                       IN      SOA     ns1.example.com. postmaster.example.com. (
-        {{ item.value.zone_serial }}    ; serial YYYYMMDDnn
-        {{ item.value.zone_refresh }}   ; refresh
-        {{ item.value.zone_retry }}     ; retry
-        {{ item.value.zone_expire }}    ; expire
-        {{ item.value.zone_minimum }}   ; minimum ttl for zone
-)
-;### INT ns
-                        IN      NS              ns1.example.com.
-                        IN      NS              ns2.example.com.
-                        IN      NS              ns3.example.com.
-ns1                     IN      A               127.0.0.1			; srv1
-ns2                     IN      A               127.0.0.1			; srv2
-ns2                     IN      AAAA            12:3456:789a			; srv2
-ns3                     IN      A               127.0.0.1			; srv3
-;### END ns
-
-
-;### INT site
-@                       IN      TXT     "google-site-verification=TEST"
-@                       IN      A               127.0.0.1
-www                     IN      CNAME           another.domain.com.
-;### END site
-
-
-;### INT mail
-@                       IN      MX      0       mx.another.domain.com.
-@                       IN      MX      10      mx.another.domain.com.
-;### END mail
-```
-
 License
 -------
 GPL v 3.0
