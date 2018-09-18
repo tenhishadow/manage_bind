@@ -10,22 +10,13 @@ $TTL 3600
 ;### INT ns
                         IN      NS              ns1.example.com.
                         IN      NS              ns2.example.com.
-                        IN      NS              ns3.example.com.
-ns1                     IN      A               127.0.0.1			; srv1
-ns2                     IN      A               127.0.0.1			; srv2
-ns2                     IN      AAAA            12:3456:789a			; srv2
-ns3                     IN      A               127.0.0.1			; srv3
+ns1                     IN      A               192.168.1.1
+ns2                     IN      A               192.168.1.254
 ;### END ns
 
 
 ;### INT site
 @                       IN      TXT     "google-site-verification=TEST"
-@                       IN      A               127.0.0.1
-www                     IN      CNAME           another.domain.com.
+@                       IN      A               192.168.1.250
+www                     IN      CNAME           example.com.
 ;### END site
-
-
-;### INT mail
-@                       IN      MX      0       mx.another.domain.com.
-@                       IN      MX      10      mx.another.domain.com.
-;### END mail
