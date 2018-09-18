@@ -4,9 +4,9 @@
   gather_facts: "true"
   any_errors_fatal: "true"
   vars:
-    - configs: "tests/configs"
+    - configs: "/etc/ansible/roles/manage_bind/tests/configs"
   vars_files:
-    - tests/configs/ansible_vars.yml
+    - /etc/ansible/roles/manage_bind/tests/configs/ansible_vars.yml
   roles:
   - manage_bind
 
