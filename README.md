@@ -14,8 +14,7 @@ During the execution ansible will:
 
 Requirements
 ------------
-- Centos 7 or RHEL7
-- bind-chroot
+-
 
 Example Playbook
 ----------------
