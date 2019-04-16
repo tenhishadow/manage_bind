@@ -1,6 +1,7 @@
 tenhishadow.manage_bind
 =========
 [![Build Status](https://travis-ci.com/tenhishadow/manage_bind.svg?branch=master)](https://travis-ci.com/tenhishadow/manage_bind)
+[![Build Status](https://circleci.com/gh/tenhishadow/manage_bind.svg?branch=master)](https://circleci.com/gh/tenhishadow/manage_bind)
 
 It is an automation for configuring BIND on managed servers.
 
