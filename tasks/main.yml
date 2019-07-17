@@ -1,5 +1,17 @@
 ---
 
+- name: ping hosts
+  ping:
+
+- name: ensure all hosts are reachable
+  run_once: yes
+  assert:
+    that:
+      - ansible_play_hosts == ansible_play_hosts_all
+
+- name: add vars depends on distr
+  include_vars: "{{ ansible_os_family|lower }}.yml"
+
 - name: install and cofigure firewalld for DNS service
   import_tasks: 'firewalld.yml'
   when:

@@ -1,8 +1,5 @@
 ---
 
-bind_package: named-chroot
-bind_service: named-chroot
-
 firewalld: yes # Install and configure firewalld by default
 
 ...
