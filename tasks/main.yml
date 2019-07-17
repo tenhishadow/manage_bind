@@ -5,9 +5,9 @@
   when:
   - firewalld|bool
 
-- name: install bind-chroot
+- name: install {{ bind_package }}
   yum:
-    name: bind-chroot
+    name: "{{ bind_package }}"
     state: present
   notify:
   - restart bind
