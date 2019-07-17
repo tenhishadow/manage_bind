@@ -118,4 +118,4 @@ GPL v 3.0
 
 Author Information
 ------------------
-* **[Stanislav Cherkasov](mailto:stanislav_cherkasov@epam.com)** - [github](https://github.com/tenhishadow)
+* **[Stanislav Cherkasov](mailto:adm@tenhi.ru)** - [github](https://github.com/tenhishadow)
