@@ -1,39 +1,40 @@
 ---
 
-
 - name: install and cofigure firewalld for DNS service
-  import_tasks: "firewalld.yml"
+  import_tasks: 'firewalld.yml'
   when:
-    - firewalld
+  - firewalld|bool
 
 - name: install bind-chroot
-  yum: name=bind-chroot state=present
+  yum:
+    name: bind-chroot
+    state: present
   notify:
-    - restart bind
+  - restart bind
 
 - name: manage zones
   template:
     src: "{{ configs }}/{{ item.value.file }}"
     dest: "/var/named/data/{{ item.value.file }}"
     backup: 'no'
-    mode: "u=rw,g=r,o=-"
-    owner: "root"
-    group: "named"
-    validate: "/usr/sbin/named-checkzone -q -i full {{ item.key }} %s"
+    mode: 'u=rw,g=r,o=-'
+    owner: 'root'
+    group: 'named'
+    validate: '/usr/sbin/named-checkzone -q -i full {{ item.key }} %s'
   with_dict: "{{ zones }}"
   notify:
-    - restart bind
+  - restart bind
 
 - name: manage main config
   template:
     src: "{{ configs }}/named.j2"
-    dest: "/etc/named.conf"
+    dest: '/etc/named.conf'
     backup: 'no'
-    mode: "u=rw,g=r,o=-"
-    owner: "root"
-    group: "named"
+    mode: 'u=rw,g=r,o=-'
+    owner: 'root'
+    group: 'named'
     validate: '/usr/sbin/named-checkconf -z -j %s'
   notify:
-    - restart bind
+  - restart bind
 
 ...
