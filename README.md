@@ -1,12 +1,9 @@
 tenhishadow.manage_bind
 =========
 [![Build Status](https://travis-ci.com/tenhishadow/manage_bind.svg?branch=master)](https://travis-ci.com/tenhishadow/manage_bind)
-[![Build Status](https://circleci.com/gh/tenhishadow/manage_bind.svg?branch=master)](https://circleci.com/gh/tenhishadow/manage_bind)
 
 It is an automation for configuring BIND on managed servers.
-
 Bind will check config and zones befor restart.
-
 During the execution ansible will:
   - install and configure firewalld ( if default var "firewalld" is not overrided )
   - install bind in chroot
@@ -121,6 +118,4 @@ GPL v 3.0
 
 Author Information
 ------------------
-Stanislav Cherkasov
-
-Tenhi adm@tenhi.ru
+* **[Stanislav Cherkasov](mailto:stanislav_cherkasov@epam.com)** - [github](https://github.com/tenhishadow)
