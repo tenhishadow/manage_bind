@@ -5,7 +5,7 @@
     name: firewalld
     state: present
   notify:
-    - restart firewalld
+  - restart firewalld
 
 - name: start and enable firewalld
   service:
